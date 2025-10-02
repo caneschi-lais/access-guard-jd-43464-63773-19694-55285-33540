@@ -30,17 +30,30 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { mockUsers, mockGroups } from "@/data/mockData";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { ExpiringPasswordsDialog } from "@/components/expiring-passwords-dialog";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [showExpiringDialog, setShowExpiringDialog] = useState(false);
+
+  // Calcula usuários com senhas expirando (próximas de 60 dias)
+  const expiringUsers = useMemo(() => {
+    const today = new Date();
+    return mockUsers.filter(user => {
+      const expiryDate = new Date(user.passwordExpiry);
+      const diffTime = expiryDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays <= 7 && diffDays >= 0; // Próximos 7 dias
+    });
+  }, []);
   
   // Mock data - will be replaced with real data
   const dashboardStats = {
     totalUsers: mockUsers.length,
     activeUsers: mockUsers.filter(u => u.status === "Ativo").length,
-    expiringSoon: mockUsers.filter(u => u.status === "Expirando").length,
+    expiringSoon: expiringUsers.length,
     securityAlerts: 3
   };
 
@@ -135,6 +148,7 @@ const Dashboard = () => {
             description="Próximos 7 dias"
             icon={Clock}
             variant="warning"
+            onClick={() => setShowExpiringDialog(true)}
           />
           <DashboardCard
             title="Alertas de Segurança"
@@ -219,6 +233,12 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </main>
+
+      <ExpiringPasswordsDialog
+        open={showExpiringDialog}
+        onOpenChange={setShowExpiringDialog}
+        users={expiringUsers}
+      />
     </div>
   );
 };

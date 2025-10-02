@@ -13,6 +13,7 @@ interface DashboardCardProps {
   };
   className?: string;
   variant?: "default" | "warning" | "danger" | "success";
+  onClick?: () => void;
 }
 
 export function DashboardCard({
@@ -22,7 +23,8 @@ export function DashboardCard({
   icon: Icon,
   trend,
   className,
-  variant = "default"
+  variant = "default",
+  onClick
 }: DashboardCardProps) {
   const getVariantStyles = () => {
     switch (variant) {
@@ -51,11 +53,15 @@ export function DashboardCard({
   };
 
   return (
-    <Card className={cn(
-      "transition-all duration-300 hover:shadow-card cursor-pointer",
-      getVariantStyles(),
-      className
-    )}>
+    <Card 
+      className={cn(
+        "transition-all duration-300 hover:shadow-card",
+        onClick && "cursor-pointer",
+        getVariantStyles(),
+        className
+      )}
+      onClick={onClick}
+    >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
