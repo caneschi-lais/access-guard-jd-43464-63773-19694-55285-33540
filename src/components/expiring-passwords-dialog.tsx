@@ -24,12 +24,14 @@ interface ExpiringPasswordsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   users: User[];
+  onPasswordReset: (user: User) => void;
 }
 
 export function ExpiringPasswordsDialog({
   open,
   onOpenChange,
-  users
+  users,
+  onPasswordReset
 }: ExpiringPasswordsDialogProps) {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showResetDialog, setShowResetDialog] = useState(false);
@@ -41,8 +43,7 @@ export function ExpiringPasswordsDialog({
 
   const handleConfirmReset = () => {
     if (selectedUser) {
-      // Aqui você implementará a lógica real de reset de senha
-      console.log("Resetando senha para:", selectedUser.name);
+      onPasswordReset(selectedUser);
       setShowResetDialog(false);
       setSelectedUser(null);
     }

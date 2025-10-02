@@ -32,32 +32,63 @@ import { useNavigate } from "react-router-dom";
 import { mockUsers, mockGroups } from "@/data/mockData";
 import { useState, useMemo } from "react";
 import { ExpiringPasswordsDialog } from "@/components/expiring-passwords-dialog";
+import { useToast } from "@/hooks/use-toast";
+import { User } from "@/types/user";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [showExpiringDialog, setShowExpiringDialog] = useState(false);
+  const [users, setUsers] = useState(mockUsers);
+  const { toast } = useToast();
 
   // Calcula usuários com senhas expirando (próximas de 60 dias)
   const expiringUsers = useMemo(() => {
     const today = new Date();
-    return mockUsers.filter(user => {
+    return users.filter(user => {
       const expiryDate = new Date(user.passwordExpiry);
       const diffTime = expiryDate.getTime() - today.getTime();
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       return diffDays <= 7 && diffDays >= 0; // Próximos 7 dias
     });
-  }, []);
+  }, [users]);
   
+  const handlePasswordReset = (user: User) => {
+    // Calcula nova data de expiração (60 dias no futuro)
+    const newExpiryDate = new Date();
+    newExpiryDate.setDate(newExpiryDate.getDate() + 60);
+    
+    // Atualiza o usuário
+    setUsers(prevUsers => 
+      prevUsers.map(u => 
+        u.id === user.id 
+          ? { 
+              ...u, 
+              passwordExpiry: newExpiryDate.toISOString().split('T')[0],
+              status: "Ativo" as const,
+              updatedAt: new Date().toISOString().split('T')[0]
+            }
+          : u
+      )
+    );
+
+    // Mostra notificação de sucesso
+    toast({
+      title: "Senha redefinida com sucesso",
+      description: `A senha de ${user.name} foi redefinida e expirará em 60 dias.`,
+      variant: "default",
+    });
+  };
+
   // Mock data - will be replaced with real data
   const dashboardStats = {
-    totalUsers: mockUsers.length,
-    activeUsers: mockUsers.filter(u => u.status === "Ativo").length,
+    totalUsers: users.length,
+    activeUsers: users.filter(u => u.status === "Ativo").length,
     expiringSoon: expiringUsers.length,
     securityAlerts: 3
   };
 
-  const filteredUsers = mockUsers
+  const filteredUsers = users
     .filter(user => 
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -238,6 +269,7 @@ const Dashboard = () => {
         open={showExpiringDialog}
         onOpenChange={setShowExpiringDialog}
         users={expiringUsers}
+        onPasswordReset={handlePasswordReset}
       />
     </div>
   );
