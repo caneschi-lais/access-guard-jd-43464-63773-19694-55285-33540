@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Bell, Settings, LogOut, User, Shield, Users, FileText } from "lucide-react";
+import { Bell, Settings, LogOut, User, Shield, Users, FileText, LayoutDashboard } from "lucide-react";
 import johnDeereLogo from "@/assets/john-deere-logo.png";
 import { useNavigate } from "react-router-dom";
 
@@ -69,6 +69,11 @@ export function Navbar({
           </Button>
 
           {/* Navigation Buttons */}
+          <Button variant="ghost" size="sm" className="gap-1.5 h-9" onClick={() => navigate("/dashboard")}>
+            <LayoutDashboard className="h-4 w-4" />
+            <span className="text-sm">Dashboard</span>
+          </Button>
+
           <Button variant="ghost" size="sm" className="gap-1.5 h-9" onClick={() => navigate("/users")}>
             <Users className="h-4 w-4" />
             <span className="text-sm">Gerenciamento de Usuários</span>
