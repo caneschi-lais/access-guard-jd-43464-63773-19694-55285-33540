@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* John Deere Access Management Design System
+All colors MUST be HSL. Based on John Deere brand identity.
+*/
+
+@layer base {
+  :root {
+    /* John Deere Brand Colors */
+    --jd-green: 94 45% 31%;      /* #367C2B - John Deere Green */
+    --jd-green-light: 94 45% 45%; /* Lighter variant */
+    --jd-green-dark: 94 45% 20%;  /* Darker variant */
+    --jd-yellow: 56 100% 50%;     /* #FFDE00 - John Deere Yellow */
+    --jd-yellow-light: 56 100% 85%; /* Light yellow for backgrounds */
+    --jd-gray: 210 8% 25%;        /* Professional gray */
+    --jd-gray-light: 210 8% 96%;  /* Light gray for backgrounds */
+    
+    /* Base Colors */
+    --background: 0 0% 100%;
+    --foreground: 210 8% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 8% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 8% 15%;
+
+    /* Primary uses John Deere Green */
+    --primary: 94 45% 31%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary uses subtle gray */
+    --secondary: 210 8% 96%;
+    --secondary-foreground: 210 8% 25%;
+
+    --muted: 210 8% 96%;
+    --muted-foreground: 210 8% 45%;
+
+    /* Accent uses John Deere Yellow */
+    --accent: 56 100% 50%;
+    --accent-foreground: 210 8% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 8% 90%;
+    --input: 210 8% 95%;
+    --ring: 94 45% 31%;
+
+    --radius: 0.75rem;
+    
+    /* Custom gradients */
+    --gradient-jd: linear-gradient(135deg, hsl(var(--jd-green)), hsl(var(--jd-green-light)));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 8% 98%));
+    
+    /* Shadows */
+    --shadow-card: 0 4px 20px -4px hsl(var(--jd-green) / 0.1);
+    --shadow-elevated: 0 8px 30px -6px hsl(var(--jd-green) / 0.2);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode backgrounds */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    /* Cards mantêm contraste no dark mode */
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary mantém John Deere Green no dark mode */
+    --primary: 94 45% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    /* Accent usa John Deere Yellow ajustado para dark mode */
+    --accent: 56 100% 60%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 63% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 23%;
+    --input: 217 33% 20%;
+    --ring: 94 45% 40%;
+    
+    /* Gradients adjusted for dark mode */
+    --gradient-jd: linear-gradient(135deg, hsl(var(--primary)), hsl(94 45% 50%));
+    --gradient-card: linear-gradient(145deg, hsl(217 33% 17%), hsl(217 33% 19%));
+    
+    /* Shadows adjusted for dark mode */
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-elevated: 0 8px 30px -6px hsl(0 0% 0% / 0.5);
+    
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 94 45% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 23%;
+    --sidebar-ring: 94 45% 40%;
+  }
+
+  /* Deuteranopia (Red-Green colorblind - most common) */
+  .cb-deuteranopia {
+    --jd-green: 210 70% 45%;      /* Blue substitui verde */
+    --jd-green-light: 210 70% 60%;
+    --jd-green-dark: 210 70% 30%;
+    --jd-yellow: 45 100% 55%;     /* Amarelo mais alaranjado */
+    --primary: 210 70% 45%;
+    --accent: 45 100% 55%;
+    --destructive: 25 90% 55%;    /* Laranja ao invés de vermelho */
+    --ring: 210 70% 45%;
+  }
+
+  /* Protanopia (Red-Green colorblind variant) */
+  .cb-protanopia {
+    --jd-green: 195 70% 45%;      /* Cyan/azul esverdeado */
+    --jd-green-light: 195 70% 60%;
+    --jd-green-dark: 195 70% 30%;
+    --jd-yellow: 50 100% 55%;     /* Amarelo dourado */
+    --primary: 195 70% 45%;
+    --accent: 50 100% 55%;
+    --destructive: 30 85% 50%;    /* Laranja escuro */
+    --ring: 195 70% 45%;
+  }
+
+  /* Tritanopia (Blue-Yellow colorblind - rare) */
+  .cb-tritanopia {
+    --jd-green: 340 70% 50%;      /* Rosa/magenta substitui verde */
+    --jd-green-light: 340 70% 65%;
+    --jd-green-dark: 340 70% 35%;
+    --jd-yellow: 180 60% 50%;     /* Cyan substitui amarelo */
+    --primary: 340 70% 50%;
+    --accent: 180 60% 50%;
+    --destructive: 0 75% 45%;     /* Vermelho mais escuro */
+    --ring: 340 70% 50%;
+  }
+
+  /* Aumenta contraste e adiciona bordas mais visíveis em todos os modos */
+  .cb-deuteranopia, .cb-protanopia, .cb-tritanopia {
+    --border: 210 15% 70%;
+    
+    /* Aumenta contraste dos textos secundários */
+    --muted-foreground: 210 12% 35%;
+  }
+
+  .dark.cb-deuteranopia, .dark.cb-protanopia, .dark.cb-tritanopia {
+    --border: 210 15% 30%;
+    --muted-foreground: 210 15% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
